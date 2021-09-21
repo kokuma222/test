@@ -1,14 +1,14 @@
 node('jenkins-slave01') {
-stage("clone 代码"){
-echo "克隆代码"
+stage("clone code"){
+echo "clone code"
 }
-stage("代码构建"){
-echo "代码构建"
+stage("build code"){
+echo "build code"
 }
-stage("代码测试"){
-echo "代码测试"
+stage("test code"){
+echo "test code"
 }
-stage("代码部署"){
-echo "代码部署"
+stage("deploy code"){
+echo "deploy code"
 }
 }
