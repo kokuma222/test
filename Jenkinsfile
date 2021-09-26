@@ -1,14 +1,26 @@
-node('jenkins-slave01') {
-stage("clone code"){
-echo "clone code"
-}
-stage("build code"){
-echo "build code"
-}
-stage("test code"){
-echo "test code"
-}
-stage("deploy code"){
-echo "deploy code"
-}
+pipeline {
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        echo 'Building teh application...'
+      }
+    }
+  }
+  
+  stages {
+    stage('Test') {
+      steps {
+        echo 'Testing teh application...'
+      }
+    }
+  }
+  
+  stages {
+    stage('Deploy') {
+      steps {
+        echo 'Deploying teh application...'
+      }
+    }
+  }
 }
