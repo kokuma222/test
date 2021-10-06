@@ -1,0 +1,89 @@
+pipeline {
+    agent none  // 不指定全局的服务器, 每个stage都要定义自己的agent{...}
+    environment {	// 下面的stage都可以使用这个变量
+		    NEW_VERSION = '1.3.0'
+	  }
+    tools {
+		    maven '3.8.3'
+	  }
+    parameters {
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+    }
+    
+    
+    stages {
+		stage('Docker Test') {
+            agent { 
+				docker {	// 用给定的容器执行pipeline脚本或者stage
+					image 'maven:3.8.2-adoptopenjdk-11'
+					label 'test-server'
+				} 
+			} 
+            steps {
+                echo 'Hello, Maven'
+                sh 'mvn --version'
+            }
+        }
+	
+        stage('Environment Test') {
+            when {
+		            expression {
+		                env.GIT_BRANCH == 'origin/dev'
+		           }
+            }
+            agent {
+		            node {
+		                label 'test-server'
+		            }
+	           }
+            steps {
+                echo "${NEW_VERSION}"   // 双引号会解析NEW_VERSION，单引号则会原样输出
+                echo '${NEW_VERSION}'
+		            echo env.GIT_BRANCH
+		            echo env.BUILD_NUMBER
+		            echo env.JOB_NAME
+            }
+        }
+        
+      stage('Tools Test') {
+          agent {
+		          node {
+		              label 'test-server'
+		          }
+	       }
+          steps {
+              sh 'mvn --version'
+          }
+      }
+	
+        stage('Parameters Test') {
+            when {
+                expression {
+                    params.executeTests == true
+                }
+            }
+			agent {
+		          node {
+		              label 'test-server'
+		          }
+	       }
+            steps {
+                echo "testing version ${params.VERSION}"
+            }
+      }
+    }
+	
+	post {
+		  always {
+		  	    echo 'clean workspace ...'
+			    cleanWs()
+		  }
+		  success {
+			    echo env.BUILD_TAG + ' build success.'
+		  }
+		  failure {
+			    echo env.BUILD_TAG + ' build failed.'
+		  }
+	}
+}
