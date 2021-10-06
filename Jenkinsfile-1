@@ -61,7 +61,8 @@ pipeline {
 	
 	post {
 		  always {
-			    echo 'Here is the always condition ...'
+		  	    echo 'clean workspace ...'
+			    cleanWs()
 		  }
 		  success {
 			    echo env.BUILD_TAG + ' build success.'
