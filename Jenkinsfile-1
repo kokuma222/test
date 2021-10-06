@@ -15,16 +15,12 @@ pipeline {
     stages {
         
         stage('build') {
-            when {
-                expression {
-                    env.BRANCH_NAME == 'dev'
-                }
-            }
+            
             agent {
-				        node {
-					          label 'test-server'
-				        }
-			      }
+		node {
+		    label 'test-server'
+		}
+	    }
             steps {
                 echo "${NEW_VERSION}"   // 双引号会解析NEW_VERSION，单引号则会原样输出
                 echo '${NEW_VERSION}'
