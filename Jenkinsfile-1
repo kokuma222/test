@@ -64,10 +64,10 @@ pipeline {
 			    echo 'Here is the always condition ...'
 		  }
 		  success {
-			    echo env.BUILD_TAG + 'build success.'
+			    echo env.BUILD_TAG + ' build success.'
 		  }
 		  failure {
-			    echo env.BUILD_TAG + 'build failed.'
+			    echo env.BUILD_TAG + ' build failed.'
 		  }
 	}
 }
