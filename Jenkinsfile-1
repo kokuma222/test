@@ -14,7 +14,7 @@ pipeline {
     }
     stages {
         
-        stage('build') {
+        stage('Environment Test') {
             when {
 		expression {
 		    env.GIT_BRANCH == 'origin/dev'
@@ -35,7 +35,18 @@ pipeline {
             }
         }
         
-        stage('test') {
+	stage('Tools Test') {
+            agent {
+		node {
+		    label 'test-server'
+		}
+	    }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+	
+        stage('Parameters Test') {
             when {
                 expression {
                     params.executeTests == true
@@ -53,10 +64,10 @@ pipeline {
 			    echo 'Here is the always condition ...'
 		  }
 		  success {
-			    echo 'Here is the success condition ...'
+			    echo env.BUILD_TAG + 'build success.'
 		  }
 		  failure {
-			    echo 'Here is the failure condition ...'
+			    echo env.BUILD_TAG + 'build failed.'
 		  }
 	}
 }
