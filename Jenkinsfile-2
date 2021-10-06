@@ -1,7 +1,11 @@
 def gv
 
 pipeline {
-    agent none  // 不指定全局的服务器, 每个stage都要定义自己的agent{...}
+    agent {
+        node {
+	    label 'test-server'
+	}
+    }
     environment {	// 下面的stage都可以使用这个变量
 	NEW_VERSION = '1.3.0'
 	  }
@@ -29,11 +33,6 @@ pipeline {
 		    env.GIT_BRANCH == 'origin/dev'
 		}
             }
-            agent {
-		node {
-		    label 'test-server'
-		}
-	    }
             steps {
                 script {
 		    gv.environmentTest()
