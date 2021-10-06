@@ -17,7 +17,7 @@ pipeline {
         stage('build') {
             when {
 		expression {
-		    env.GIT_BRANCH == 'dev'
+		    env.GIT_BRANCH == 'origin/dev'
 		}
             }
             agent {
