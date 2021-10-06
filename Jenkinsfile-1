@@ -15,7 +15,11 @@ pipeline {
     stages {
         
         stage('build') {
-            
+            when {
+		expression {
+		    env.GIT_BRANCH == 'dev'
+		}
+            }
             agent {
 		node {
 		    label 'test-server'
