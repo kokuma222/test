@@ -8,6 +8,7 @@ pipeline {
 	NEW_VERSION = '1.3.0'
     }
     parameters {
+	string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who shuould I say hello to?')
         choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
@@ -24,21 +25,22 @@ pipeline {
                 echo '${NEW_VERSION}'
 		echo env.GIT_BRANCH
 		echo env.JOB_NAME
-				
+		
+		echo "Hello ${params.PERSION}"
                 echo "testing version ${params.VERSION}"
             }
         }
     }
 	
-	post {
-		  always {	// 执行清除/恢复环境等操作
-		  	    echo 'Here is always condition ...'
-		  }
-		  success {
-			    echo env.BUILD_TAG + ' build success.'
-		  }
-		  failure {
-			    echo env.BUILD_TAG + ' build failed.'
-		  }
+    post {
+	always {	// 执行清除/恢复环境等操作
+	    echo 'Here is always condition ...'
 	}
+	success {
+	    echo env.BUILD_TAG + ' build success.'
+	}
+	failure {
+	    echo env.BUILD_TAG + ' build failed.'
+	}
+    }
 }
