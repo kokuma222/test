@@ -40,11 +40,6 @@ pipeline {
             }
         }
         stage('Tools Test') {
-            agent {
-	        node {
-	            label 'test-server'
-	        }
-	    }
             steps {
                 script {
 		    gv.toolsTest()
