@@ -1,7 +1,7 @@
 pipeline {
     agent none  // 不指定全局的服务器, 每个stage都要定义自己的agent{...}
     tools {
-	maven '3.8.3'
+	maven '3.6.3'
     }
 	
     stages {
