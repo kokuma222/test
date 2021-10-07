@@ -4,6 +4,7 @@ def test() {
     echo env.GIT_BRANCH
     echo env.JOB_NAME
     
+    echo "Hello ${params.PERSON}"
     echo "testing version ${params.VERSION}"
 }
 
