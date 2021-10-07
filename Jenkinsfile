@@ -8,7 +8,7 @@ pipeline {
 	NEW_VERSION = '1.3.0'
     }
     parameters {
-	string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who shuould I say hello to?')
+	string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who am I?')
         choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
@@ -26,7 +26,7 @@ pipeline {
 		echo env.GIT_BRANCH
 		echo env.JOB_NAME
 		
-		echo "Hello ${params.PERSION}"
+		echo "Hello ${params.PERSON}"
                 echo "testing version ${params.VERSION}"
             }
         }
