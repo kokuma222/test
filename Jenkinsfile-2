@@ -26,34 +26,7 @@ pipeline {
                 }
             }
         }
-    
-        stage('Environment Test') {
-            when {
-		expression {
-		    env.GIT_BRANCH == 'origin/dev'
-		}
-            }
-            steps {
-                script {
-		    gv.environmentTest()
-		}
-            }
-        }
-        
-      stage('Tools Test') {
-          agent {
-	      node {
-	          label 'test-server'
-	      }
-	       }
-          steps {
-              script {
-		    gv.toolsTest()
-		}
-          }
-      }
-	
-        stage('Parameters Test') {
+	stage('Test') {
             when {
                 expression {
                     params.executeTests == true
@@ -62,10 +35,22 @@ pipeline {
         
             steps {
                 script {
-		    gv.parametersTest()
+		    gv.est()
 		}
             }
-      }
+        }
+        stage('Tools Test') {
+            agent {
+	        node {
+	            label 'test-server'
+	        }
+	    }
+            steps {
+                script {
+		    gv.toolsTest()
+		}
+            }
+        }
     }
 	
 }
